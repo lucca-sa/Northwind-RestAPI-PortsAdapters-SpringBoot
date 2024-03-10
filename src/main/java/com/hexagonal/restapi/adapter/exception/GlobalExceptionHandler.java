@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<Object> handleDadosNaoEncontradosException(NoSuchElementException e) {
+    public ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException e) {
         Map<String, Object> errorDetails = buildErrorDetails(HttpStatus.NOT_FOUND, "Dados não encontrados",
                 e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
