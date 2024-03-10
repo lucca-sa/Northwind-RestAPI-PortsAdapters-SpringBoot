@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexagonal.restapi.adapter.input.customers.BuscaPorIdSwagger;
 import com.hexagonal.restapi.adapter.input.customers.mapper.CustomerMapper;
 import com.hexagonal.restapi.adapter.output.database.entity.CustomerEntity;
-import com.hexagonal.restapi.domain.model.Customer;
 import com.hexagonal.restapi.port.customers.input.BuscaPorIdUseCase;
 
 @RestController
@@ -23,8 +22,7 @@ public class BuscaPorIdController implements BuscaPorIdSwagger {
 
     @Override
     public ResponseEntity<CustomerEntity> getCustomerInfo(@PathVariable String customerId) {
-        Customer customerInfo = buscaPorIdUseCase.buscar(customerId);
-
-        return ResponseEntity.status(HttpStatus.FOUND).body(customerMapper.toCustomerEntity(customerInfo));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(customerMapper.toCustomerEntity(buscaPorIdUseCase.buscar(customerId)));
     }
 }

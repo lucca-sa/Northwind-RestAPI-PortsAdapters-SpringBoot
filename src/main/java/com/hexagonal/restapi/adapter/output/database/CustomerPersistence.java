@@ -1,7 +1,6 @@
 package com.hexagonal.restapi.adapter.output.database;
 
-import java.util.Optional;
-
+import java.util.NoSuchElementException;
 import org.springframework.stereotype.Component;
 
 import com.hexagonal.restapi.adapter.input.customers.mapper.CustomerMapper;
@@ -22,10 +21,11 @@ public class CustomerPersistence implements BuscaPorIdPort {
 
     @Override
     public Customer buscar(String customerId) {
-        Optional<CustomerEntity> customerInfo = customerRepository.findById(customerId);
-        CustomerEntity customer = customerInfo.get();
+        CustomerEntity customerInfo = customerRepository.findById(customerId)
+                .orElseThrow(
+                        () -> new NoSuchElementException("Cliente com Id " + customerId + " não foi encontrado."));
 
-        return customerMapper.toCustomerModel(customer);
+        return customerMapper.toCustomerModel(customerInfo);
     }
 
 }
