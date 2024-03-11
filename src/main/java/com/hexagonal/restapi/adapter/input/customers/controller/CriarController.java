@@ -30,7 +30,6 @@ public class CriarController implements CriarSwagger {
     @PostMapping    
     @Override
     public ResponseEntity<CustomerEntity> postCustomer(@RequestBody CriarClienteRequest criarClienteRequest) {
-        System.out.println(criarClienteRequest.getId());
         Customer criar = criarUseCase.criar(mapper.toCustomerModel(criarClienteRequest));
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toCustomerEntity(criar));
     }

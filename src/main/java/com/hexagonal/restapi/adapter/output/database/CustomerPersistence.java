@@ -10,11 +10,12 @@ import com.hexagonal.restapi.adapter.output.database.repository.CustomerReposito
 import com.hexagonal.restapi.domain.model.Customer;
 import com.hexagonal.restapi.port.customers.output.BuscaPorIdPort;
 import com.hexagonal.restapi.port.customers.output.CriarPort;
+import com.hexagonal.restapi.port.customers.output.EditarPort;
 
 import jakarta.transaction.Transactional;
 
 @Component
-public class CustomerPersistence implements BuscaPorIdPort, CriarPort {
+public class CustomerPersistence implements BuscaPorIdPort, CriarPort, EditarPort {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
@@ -32,8 +33,12 @@ public class CustomerPersistence implements BuscaPorIdPort, CriarPort {
     @Override
     @Transactional
     public Customer criar(Customer customer) {
-        System.out.println("Chegou no persistance");
         return customerMapper.toCustomerModel(customerRepository.save(customerMapper.toCustomerEntity(customer)));
     }
 
+    @Override
+    @Transactional
+    public Customer editar(Customer customer) {
+        return customerMapper.toCustomerModel(customerRepository.save(customerMapper.toCustomerEntity(customer)));
+    }
 }

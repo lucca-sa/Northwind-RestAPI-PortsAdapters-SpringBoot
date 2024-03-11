@@ -1,10 +1,10 @@
 package com.hexagonal.restapi.domain.service.customers;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.hexagonal.restapi.domain.exception.DataConflictException;
 import com.hexagonal.restapi.domain.model.Customer;
 import com.hexagonal.restapi.port.customers.input.CriarUseCase;
 import com.hexagonal.restapi.port.customers.output.BuscaPorIdPort;
@@ -25,7 +25,7 @@ public class CriarService implements CriarUseCase {
         Optional<Customer> customerExists = buscaPorIdPort.buscar(customer.getId());
 
         if (customerExists.isPresent()) {
-            throw new NoSuchElementException("Já existe");
+            throw new DataConflictException("Um cliente com o Id " + customer.getId() + " já existe.");
         }
 
         return criarPort.criar(customer);
