@@ -1,5 +1,8 @@
 package com.hexagonal.restapi.domain.service.customers;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.hexagonal.restapi.domain.model.Customer;
@@ -17,6 +20,12 @@ public class BuscaPorIdService implements BuscaPorIdUseCase {
 
     @Override
     public Customer buscar(String customerId) {
-        return buscaPorIdPort.buscar(customerId);
+        Optional<Customer> customerInfo = buscaPorIdPort.buscar(customerId.toUpperCase());
+
+        if(customerInfo.isPresent()) {
+            return customerInfo.get();
+        }
+
+        throw new NoSuchElementException("Cliente com Id " + customerId + " não foi encontrado.");
     }
 }

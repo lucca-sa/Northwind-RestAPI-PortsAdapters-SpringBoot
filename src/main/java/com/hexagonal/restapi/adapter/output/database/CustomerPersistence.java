@@ -1,16 +1,20 @@
 package com.hexagonal.restapi.adapter.output.database;
 
-import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
 import com.hexagonal.restapi.adapter.input.customers.mapper.CustomerMapper;
-import com.hexagonal.restapi.adapter.output.database.entity.CustomerEntity;
 import com.hexagonal.restapi.adapter.output.database.repository.CustomerRepository;
 import com.hexagonal.restapi.domain.model.Customer;
 import com.hexagonal.restapi.port.customers.output.BuscaPorIdPort;
+import com.hexagonal.restapi.port.customers.output.CriarPort;
+
+import jakarta.transaction.Transactional;
 
 @Component
-public class CustomerPersistence implements BuscaPorIdPort {
+public class CustomerPersistence implements BuscaPorIdPort, CriarPort {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
@@ -20,12 +24,16 @@ public class CustomerPersistence implements BuscaPorIdPort {
     }
 
     @Override
-    public Customer buscar(String customerId) {
-        CustomerEntity customerInfo = customerRepository.findById(customerId)
-                .orElseThrow(
-                        () -> new NoSuchElementException("Cliente com Id " + customerId + " não foi encontrado."));
+    public Optional<Customer> buscar(String customerId) {
+        Objects.requireNonNull(customerId, "Id não pode ser nulo");
+        return customerRepository.findById(customerId).map(customerMapper::toCustomerModel);
+    }
 
-        return customerMapper.toCustomerModel(customerInfo);
+    @Override
+    @Transactional
+    public Customer criar(Customer customer) {
+        System.out.println("Chegou no persistance");
+        return customerMapper.toCustomerModel(customerRepository.save(customerMapper.toCustomerEntity(customer)));
     }
 
 }
