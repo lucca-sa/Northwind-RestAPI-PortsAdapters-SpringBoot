@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hexagonal.restapi.adapter.input.customers.EditarSwagger;
+import com.hexagonal.restapi.adapter.input.customers.dto.ClienteResponse;
 import com.hexagonal.restapi.adapter.input.customers.dto.EditarClienteRequest;
 import com.hexagonal.restapi.adapter.mapper.CustomerMapper;
-import com.hexagonal.restapi.adapter.output.database.entity.CustomerEntity;
 import com.hexagonal.restapi.domain.model.Customer;
 import com.hexagonal.restapi.port.customers.input.EditarUseCase;
 
@@ -31,8 +31,8 @@ public class EditarController implements EditarSwagger {
 
     @Override
     @PutMapping("/{customerId}")
-    public ResponseEntity<CustomerEntity> putCustomer(@PathVariable String customerId, @Valid @RequestBody EditarClienteRequest editarClienteRequest) {
+    public ResponseEntity<ClienteResponse> putCustomer(@PathVariable String customerId, @Valid @RequestBody EditarClienteRequest editarClienteRequest) {
         Customer editar = useCase.editar(customerId, mapper.toCustomerModel(editarClienteRequest));
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.toCustomerEntity(editar));
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toCustomerResponse(editar));
     }
 }

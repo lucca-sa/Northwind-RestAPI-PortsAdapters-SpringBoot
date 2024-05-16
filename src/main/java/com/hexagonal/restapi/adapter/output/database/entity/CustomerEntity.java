@@ -49,5 +49,4 @@ public class CustomerEntity {
 
     @Column(name = "fax")
     private String fax;
-
 }

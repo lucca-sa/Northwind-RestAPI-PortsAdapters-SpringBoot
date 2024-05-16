@@ -1,9 +1,10 @@
 package com.hexagonal.restapi.adapter.input.customers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.hexagonal.restapi.adapter.output.database.entity.CustomerEntity;
+import com.hexagonal.restapi.adapter.input.customers.dto.ClienteResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,5 +20,5 @@ public interface BuscaPorIdSwagger {
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado.")
     })
     @Operation(summary = "Busca de Cliente por ID")
-    public ResponseEntity<CustomerEntity> getCustomerInfo(@PathVariable String customerId);
+    public ResponseEntity<ClienteResponse> getCustomerInfo(@PathVariable String customerId) throws BindException;
 }
