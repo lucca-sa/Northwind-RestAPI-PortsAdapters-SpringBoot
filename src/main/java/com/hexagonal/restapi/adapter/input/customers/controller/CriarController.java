@@ -29,7 +29,7 @@ public class CriarController implements CriarSwagger {
         this.mapper = mapper;
     }
 
-    @PostMapping    
+    @PostMapping
     @Override
     public ResponseEntity<CustomerEntity> postCustomer(@Valid @RequestBody CriarClienteRequest criarClienteRequest) {
         Customer criar = criarUseCase.criar(mapper.toCustomerModel(criarClienteRequest));
