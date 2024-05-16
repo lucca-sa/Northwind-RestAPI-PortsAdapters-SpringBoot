@@ -29,7 +29,7 @@ public class CustomerPersistence implements BuscaPorIdPort, CriarPort, EditarPor
     @Override
     public Customer buscar(String customerId) {
         return customerRepository.findById(customerId).map(customerMapper::toCustomerModel)
-                .orElseThrow(() -> new NoSuchElementException("Cliente com Id " + customerId + " não foi encontrado."));
+                .orElseThrow(() -> new NoSuchElementException("Cliente com ID '" + customerId + "' não foi encontrado."));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class CustomerPersistence implements BuscaPorIdPort, CriarPort, EditarPor
         Optional<CustomerEntity> customerExistente = customerRepository.findById(customer.getId());
 
         if (customerExistente.isPresent()) {
-            throw new DataConflictException("Cliente com o Id " + customer.getId() + " já existe.");
+            throw new DataConflictException("Cliente com o ID '" + customer.getId() + "' já existe.");
         }
 
         return customerMapper.toCustomerModel(customerRepository.save(customerMapper.toCustomerEntity(customer)));

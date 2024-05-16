@@ -15,6 +15,8 @@ import com.hexagonal.restapi.adapter.output.database.entity.CustomerEntity;
 import com.hexagonal.restapi.domain.model.Customer;
 import com.hexagonal.restapi.port.customers.input.CriarUseCase;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping(value = "/api/customer", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -29,7 +31,7 @@ public class CriarController implements CriarSwagger {
 
     @PostMapping    
     @Override
-    public ResponseEntity<CustomerEntity> postCustomer(@RequestBody CriarClienteRequest criarClienteRequest) {
+    public ResponseEntity<CustomerEntity> postCustomer(@Valid @RequestBody CriarClienteRequest criarClienteRequest) {
         Customer criar = criarUseCase.criar(mapper.toCustomerModel(criarClienteRequest));
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toCustomerEntity(criar));
     }
