@@ -35,6 +35,7 @@ public class CustomerPersistence implements BuscaPorIdPort, CriarPort, EditarPor
     @Override
     @Transactional
     public Customer criar(Customer customer) {
+        customer.setId(customer.getId().toUpperCase());
         Optional<CustomerEntity> customerExistente = customerRepository.findById(customer.getId());
 
         if (customerExistente.isPresent()) {
