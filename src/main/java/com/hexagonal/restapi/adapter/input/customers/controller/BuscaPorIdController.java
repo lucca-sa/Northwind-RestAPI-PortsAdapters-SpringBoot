@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hexagonal.restapi.adapter.input.customers.BuscaPorIdSwagger;
-import com.hexagonal.restapi.adapter.input.customers.mapper.CustomerMapper;
+import com.hexagonal.restapi.adapter.mapper.CustomerMapper;
 import com.hexagonal.restapi.adapter.output.database.entity.CustomerEntity;
 import com.hexagonal.restapi.port.customers.input.BuscaPorIdUseCase;
 
