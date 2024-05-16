@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexagonal.restapi.adapter.input.customers.CriarSwagger;
 import com.hexagonal.restapi.adapter.input.customers.dto.CriarClienteRequest;
-import com.hexagonal.restapi.adapter.input.customers.mapper.CustomerMapper;
+import com.hexagonal.restapi.adapter.mapper.CustomerMapper;
 import com.hexagonal.restapi.adapter.output.database.entity.CustomerEntity;
 import com.hexagonal.restapi.domain.model.Customer;
 import com.hexagonal.restapi.port.customers.input.CriarUseCase;
