@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hexagonal.restapi.adapter.input.customers.CriarSwagger;
+import com.hexagonal.restapi.adapter.input.customers.dto.ClienteResponse;
 import com.hexagonal.restapi.adapter.input.customers.dto.CriarClienteRequest;
 import com.hexagonal.restapi.adapter.mapper.CustomerMapper;
-import com.hexagonal.restapi.adapter.output.database.entity.CustomerEntity;
 import com.hexagonal.restapi.domain.model.Customer;
 import com.hexagonal.restapi.port.customers.input.CriarUseCase;
 
@@ -31,8 +31,8 @@ public class CriarController implements CriarSwagger {
 
     @PostMapping
     @Override
-    public ResponseEntity<CustomerEntity> postCustomer(@Valid @RequestBody CriarClienteRequest criarClienteRequest) {
+    public ResponseEntity<ClienteResponse> postCustomer(@Valid @RequestBody CriarClienteRequest criarClienteRequest) {
         Customer criar = criarUseCase.criar(mapper.toCustomerModel(criarClienteRequest));
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toCustomerEntity(criar));
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toCustomerResponse(criar));
     }
 }
