@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,10 +17,12 @@ import com.hexagonal.restapi.domain.exception.DataConflictException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    private String validationError = "Erro de validação";
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException e) {
-        Map<String, Object> errorDetails = buildErrorDetails(HttpStatus.NOT_FOUND, "Dados não encontrados.", e.getMessage());
+        Map<String, Object> errorDetails = buildErrorDetails(HttpStatus.NOT_FOUND, "Dados não encontrados.",
+                e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
     }
 
@@ -38,8 +41,15 @@ public class GlobalExceptionHandler {
             fieldErrors.put(fieldName, errorMessage);
         });
 
-        Map<String, Object> errorDetails = buildErrorDetails(HttpStatus.BAD_REQUEST, "Erro de validação", fieldErrors);
+        Map<String, Object> errorDetails = buildErrorDetails(HttpStatus.BAD_REQUEST, validationError, fieldErrors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<Object> handleBindException(BindException e) {
+        String message = e.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(buildErrorDetails(HttpStatus.BAD_REQUEST, validationError, message));
     }
 
     private Map<String, Object> buildErrorDetails(HttpStatus status, String error, Object message) {
