@@ -7,8 +7,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.hexagonal.restapi.adapter.mapper.CustomerMapper;
+import com.hexagonal.restapi.adapter.output.database.entity.CustomerDemoEntity;
 import com.hexagonal.restapi.adapter.output.database.entity.CustomerEntity;
 import com.hexagonal.restapi.adapter.output.database.entity.OrderEntity;
+import com.hexagonal.restapi.adapter.output.database.repository.CustomerDemoRepository;
 import com.hexagonal.restapi.adapter.output.database.repository.CustomerRepository;
 import com.hexagonal.restapi.adapter.output.database.repository.OrderRepository;
 import com.hexagonal.restapi.domain.exception.DataConflictException;
@@ -19,25 +21,21 @@ import com.hexagonal.restapi.port.customers.output.DeletarPort;
 import com.hexagonal.restapi.port.customers.output.EditarPort;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @Component
 public class CustomerPersistence implements BuscaPorIdPort, CriarPort, EditarPort, DeletarPort {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
     private final OrderRepository orderRepository;
-
-
-    public CustomerPersistence(CustomerRepository customerRepository, CustomerMapper customerMapper,
-            OrderRepository orderRepository) {
-        this.customerRepository = customerRepository;
-        this.customerMapper = customerMapper;
-        this.orderRepository = orderRepository;
-    }
+    private final CustomerDemoRepository customerDemoRepository;
 
     @Override
     public Customer buscar(String customerId) {
         return customerRepository.findById(customerId).map(customerMapper::toCustomerModel)
-                .orElseThrow(() -> new NoSuchElementException("Cliente com ID '" + customerId + "' não foi encontrado."));
+                .orElseThrow(
+                        () -> new NoSuchElementException("Cliente com ID '" + customerId + "' não foi encontrado."));
     }
 
     @Override
@@ -65,14 +63,17 @@ public class CustomerPersistence implements BuscaPorIdPort, CriarPort, EditarPor
     @Transactional
     public String deletar(String customerId) {
         customerId = customerId.toUpperCase();
-        CustomerEntity customerInfo = customerMapper.toCustomerEntity(buscar(customerId));
-        List<OrderEntity> orders = orderRepository.findByCustomerId(customerInfo);
+        CustomerEntity customer = customerMapper.toCustomerEntity(buscar(customerId));
+        List<OrderEntity> orders = orderRepository.findByCustomerId(customer);
+        List<CustomerDemoEntity> demographics = customerDemoRepository.findByCustomerId(customer);
 
-        if(orders.isEmpty()) {
-            customerRepository.deleteById(customerId);
-            return "Cliente com o ID '" + customerId + "' foi excluído com sucesso.";
+        if (!orders.isEmpty() || !demographics.isEmpty()) {
+            throw new DataConflictException("Clientes com pedidos ou demográficos cadastrados não podem ser excluídos.");
         }
 
-        throw new DataConflictException("Clientes com pedidos cadastrados não podem ser excluídos.");
+
+        customerRepository.deleteById(customerId);
+        return "Cliente com o ID '" + customerId + "' foi excluído com sucesso.";
+
     }
 }
