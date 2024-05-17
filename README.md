@@ -10,7 +10,8 @@ A estrutura de pastas do projeto é organizada da seguinte maneira:
 adapter
 │
 ├── exception
-│   └── GlobalExceptionHandler.java
+│   └── handler
+│       └── GlobalExceptionHandler.java
 │
 ├── input
 │   └── customers
