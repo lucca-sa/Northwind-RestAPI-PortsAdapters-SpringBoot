@@ -1,4 +1,4 @@
-package com.hexagonal.restapi.adapter.output.database.entity;
+package com.hexagonal.restapi.adapter.output.database.data.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

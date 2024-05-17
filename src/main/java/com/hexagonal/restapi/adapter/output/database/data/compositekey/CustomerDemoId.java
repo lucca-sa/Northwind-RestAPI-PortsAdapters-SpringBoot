@@ -1,6 +1,6 @@
-package com.hexagonal.restapi.adapter.output.database.compositekey;
+package com.hexagonal.restapi.adapter.output.database.data.compositekey;
 
-import com.hexagonal.restapi.adapter.output.database.entity.CustomerEntity;
+import com.hexagonal.restapi.adapter.output.database.data.entity.CustomerEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

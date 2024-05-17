@@ -1,4 +1,4 @@
-package com.hexagonal.restapi.adapter.output.database;
+package com.hexagonal.restapi.adapter.output;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -7,9 +7,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.hexagonal.restapi.adapter.mapper.CustomerMapper;
-import com.hexagonal.restapi.adapter.output.database.entity.CustomerDemoEntity;
-import com.hexagonal.restapi.adapter.output.database.entity.CustomerEntity;
-import com.hexagonal.restapi.adapter.output.database.entity.OrderEntity;
+import com.hexagonal.restapi.adapter.output.database.data.entity.CustomerDemoEntity;
+import com.hexagonal.restapi.adapter.output.database.data.entity.CustomerEntity;
+import com.hexagonal.restapi.adapter.output.database.data.entity.OrderEntity;
 import com.hexagonal.restapi.adapter.output.database.repository.CustomerDemoRepository;
 import com.hexagonal.restapi.adapter.output.database.repository.CustomerRepository;
 import com.hexagonal.restapi.adapter.output.database.repository.OrderRepository;
@@ -17,7 +17,7 @@ import com.hexagonal.restapi.domain.exception.DataConflictException;
 import com.hexagonal.restapi.domain.model.Customer;
 import com.hexagonal.restapi.port.customers.output.BuscaPorIdPort;
 import com.hexagonal.restapi.port.customers.output.CriarPort;
-import com.hexagonal.restapi.port.customers.output.DeletarPort;
+import com.hexagonal.restapi.port.customers.output.DeletarPorIdPort;
 import com.hexagonal.restapi.port.customers.output.EditarPort;
 
 import jakarta.transaction.Transactional;
@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Component
-public class CustomerPersistence implements BuscaPorIdPort, CriarPort, EditarPort, DeletarPort {
+public class CustomerPersistence implements BuscaPorIdPort, CriarPort, EditarPort, DeletarPorIdPort {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
     private final OrderRepository orderRepository;
