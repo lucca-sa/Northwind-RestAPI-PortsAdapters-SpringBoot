@@ -80,15 +80,15 @@ port
 - **adapter**: Contém os adaptadores que fazem a interface entre a aplicação e o mundo externo.
   - **exception**: Classe para tratamento global de exceções.
   - **input**: Adaptadores de entrada, como controladores e DTOs.
-    - **customers**: Controladores e DTOs específicos para operações com clientes.
+    - **customers**: DTOs específicos para operações com clientes e Controladores que chamam os UseCases.
   - **mapper**: Classes de mapeamento entre entidades e DTOs.
-  - **output**: Adaptadores de saída, como persistência de dados e repositórios.
+  - **output**: Adaptadores de saída, como repositórios e persistência de dados que implementam os Ports.
     - **database**: Estrutura de banco de dados, incluindo entidades e repositórios.
 
-- **domain**: Contém a lógica de negócios central da aplicação.
+- **domain**: Contém o núcleo central da aplicação.
   - **exception**: Exceções específicas do domínio.
   - **model**: Modelos de domínio.
-  - **service**: Serviços que implementam a lógica de negócios.
+  - **service**: Serviços que implementam os UseCases e chamam os Ports.
     - **customers**: Serviços específicos para operações com clientes.
 
 - **port**: Contém interfaces que definem contratos para a comunicação entre o domínio e os adaptadores.
