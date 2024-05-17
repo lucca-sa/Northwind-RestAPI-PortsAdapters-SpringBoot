@@ -1,5 +1,5 @@
 package com.hexagonal.restapi.port.customers.output;
 
-public interface DeletarPort {
+public interface DeletarPorIdPort {
     String deletar(String customerId);
 }
