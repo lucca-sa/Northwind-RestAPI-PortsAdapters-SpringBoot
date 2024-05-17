@@ -1,4 +1,4 @@
-package com.hexagonal.restapi.adapter.exception;
+package com.hexagonal.restapi.adapter.exception.handler;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
