@@ -108,7 +108,7 @@ port
 
 1. Clone o repositório:
 
-    [git clone https://github.com/seu-usuario/seu-repositorio.git](https://github.com/lucca-sa/Northwind-RestAPI-PortsAdapters-SpringBoot.git)
+    (https://github.com/lucca-sa/Northwind-RestAPI-PortsAdapters-SpringBoot.git)
    
 
 
